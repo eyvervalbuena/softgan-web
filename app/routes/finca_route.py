@@ -21,7 +21,7 @@ def listar():
 # 4. FORMULARIO EN BLANCO para crear una finca nueva
 @bp_finca.route('/nuevo', methods=['GET'])
 def nuevo():
-    return render_template('finca.html', finca=None)
+    return render_template('finca_form.html', finca=None)
 
 
 # 5. PROCESAR CREACIÓN
@@ -43,7 +43,7 @@ def crear():
         edades_machos  = d.get('edades_machos') or None
     )
     dao.insert(finca)
-    flash("✅ Finca creada correctamente.", "success")
+    flash(" Finca creada correctamente.", "success")
     return redirect(url_for('finca.listar'))
 
 
@@ -54,14 +54,14 @@ def editar(id):
     if not finca:
         flash("❌ Finca no encontrada.", "danger")
         return redirect(url_for('finca.listar'))
-    return render_template('finca.html', finca=finca)
+    return render_template('finca_form.html', finca=finca)
 
 
 # 7. PROCESAR ACTUALIZACIÓN
 @bp_finca.route('/editar/<int:id>', methods=['POST'])
 def actualizar(id):
     d = request.form
-    finca = Finca(
+    dij = Finca(
         id_finca       = id,
         nombre         = d['nombre'],
         propietario    = d['propietario'],
@@ -76,8 +76,8 @@ def actualizar(id):
         edades_hembras = d.get('edades_hembras') or None,
         edades_machos  = d.get('edades_machos') or None
     )
-    dao.update(finca)
-    flash("✅ Finca actualizada correctamente.", "success")
+    dao.update(fij)
+    flash(" Finca actualizada correctamente.", "success")
     return redirect(url_for('finca.listar'))
 
 
@@ -86,7 +86,7 @@ def actualizar(id):
 def eliminar(id):
     success = dao.delete(id)
     if success:
-        flash("✅ Finca eliminada correctamente.", "success")
+        flash(" Finca eliminada correctamente.", "success")
     else:
-        flash("❌ No se pudo eliminar la finca.", "danger")
+        flash(" No se pudo eliminar la finca.", "danger")
     return redirect(url_for('finca.listar'))

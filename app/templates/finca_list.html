@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de Fincas | SoFTgan{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+  <div class="col">
+    <a href="{{ url_for('finca.nuevo') }}" class="btn btn-success">+ Nueva Finca</a>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead class="table-success">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Encargado</th>
+      <th>Ubicación</th>
+      <th>Hectáreas</th>
+      <th>Potreros</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for f in fincas %}
+    <tr>
+      <td>{{ f.id_finca }}</td>
+      <td>{{ f.nombre }}</td>
+      <td>{{ f.propietario }}</td>
+      <td>{{ f.direccion or '-' }}</td>
+      <td>{{ f.hectareas }}</td>
+      <td>{{ f.num_potreros }}</td>
+      <td>
+        <a href="{{ url_for('finca.editar', id=f.id_finca) }}" class="btn btn-sm btn-primary">Editar</a>
+        <form method="post" action="{{ url_for('finca.eliminar', id=f.id_finca) }}"
+              style="display:inline" onsubmit="return confirm('¿Eliminar esta finca?');">
+          <button class="btn btn-sm btn-danger">Borrar</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="text-center">No hay fincas registradas.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
