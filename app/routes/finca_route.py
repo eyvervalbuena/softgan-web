@@ -1,4 +1,3 @@
-# app/routes/finca_route.py
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.dao.finca_dao import FincaDao
@@ -51,7 +50,7 @@ def crear():
 def editar(id):
     finca = dao.find_by_id(id)
     if not finca:
-        flash("❌ Finca no encontrada.", "danger")
+        flash(" Finca no encontrada.", "danger")
         return redirect(url_for('finca.listar'))
     return render_template('finca_form.html', finca=finca)
 
