@@ -1,3 +1,4 @@
+# config.py
 DB_USER     = "invitado"
 DB_PASSWORD = "Adso2977369"
 DB_HOST     = "127.0.0.1"
