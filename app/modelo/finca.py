@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float
-from .base import Base   # IMPORTACIÓN RELATIVA CORRECTA
+from .base import Base  
 
 class Finca(Base):
     __tablename__ = 'finca'

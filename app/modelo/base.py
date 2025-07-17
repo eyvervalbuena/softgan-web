@@ -1,4 +1,3 @@
-# app/modelo/base.py
 from sqlalchemy.orm import declarative_base
 from ..config import engine
 
