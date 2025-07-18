@@ -1,26 +1,19 @@
 {% extends "base.html" %}
-
-{% block title %}Registro de Finca | SoFTgan{% endblock %}
-
+{% block title %}{{ finca and "Editar Finca" or "Nueva Finca" }}{% endblock %}
 {% block content %}
 <div class="row">
-  <!-- ==== Formulario de finca ==== -->
   <div class="col-lg-4 ps-0">
     <div class="card shadow-lg border-4 mb-4">
       <div class="card-header bg-success text-white text-center">
-        <h5 class="mb-0">
-          {% if finca %}Editar finca{% else %}Registro inicial de finca{% endif %}
-        </h5>
+        <h5 class="mb-0">{{ finca and "Editar Finca" or "Registro inicial de finca" }}</h5>
       </div>
       <div class="card-body">
-        <form id="fincaForm"
-              action="{{ url_for('finca.crear') if not finca else url_for('finca.actualizar', id=finca.id_finca) }}"
+        <form action="{{ url_for('finca.crear') if not finca else url_for('finca.actualizar', id=finca.id_finca) }}"
               method="post">
-          {# Si se empieza a usar Flask-WTF, incluir: {{ form.csrf_token }} #}
-
+          <!-- Nombre / Propietario -->
           <div class="row mb-3">
             <div class="col-md-6">
-              <label class="form-label">Nombre Finca</label>
+              <label class="form-label">Nombre</label>
               <input class="form-control" name="nombre" required
                      value="{{ finca.nombre if finca else '' }}">
             </div>
@@ -31,6 +24,7 @@
             </div>
           </div>
 
+          <!-- Dirección / Hectáreas / Potreros -->
           <div class="row mb-3">
             <div class="col-md-8">
               <label class="form-label">Ubicación</label>
@@ -39,16 +33,19 @@
             </div>
             <div class="col-md-2">
               <label class="form-label">Ha</label>
-              <input type="number" step="0.1" min="0" class="form-control" name="hectareas"
+              <input type="number" step="0.1" min="0" class="form-control"
+                     name="hectareas"
                      value="{{ finca.hectareas if finca else '' }}">
             </div>
             <div class="col-md-2">
               <label class="form-label">Potreros</label>
-              <input type="number" min="0" class="form-control" name="num_potreros"
+              <input type="number" min="0" class="form-control"
+                     name="num_potreros"
                      value="{{ finca.num_potreros if finca else '' }}">
             </div>
           </div>
 
+          <!-- Marcas -->
           <h6 class="text-success">Marcas de Hierro (máx. 3)</h6>
           <div class="row g-2 mb-3">
             <div class="col">
@@ -65,36 +62,39 @@
             </div>
           </div>
 
+          <!-- NIT / Email -->
           <div class="row mb-3">
             <div class="col-md-4">
               <label class="form-label">NIT</label>
-              <input class="form-control" name="nit" required
+              <input class="form-control" name="nit"
                      value="{{ finca.nit if finca else '' }}">
             </div>
             <div class="col-md-8">
               <label class="form-label">E-mail</label>
-              <input type="email" class="form-control" name="email" required
+              <input type="email" class="form-control" name="email"
                      value="{{ finca.email if finca else '' }}">
             </div>
           </div>
 
-          <h6 class="text-success">Rangos de edad (años)</h6>
+          <!-- Rangos de edad -->
+          <h6 class="text-success">Rangos de edad&nbsp;(años)</h6>
           <div class="row mb-3">
             <div class="col-md-6">
               <label class="form-label">Hembras</label>
-              <input class="form-control" name="edades_hembras" placeholder="0-1, 1-2, 2+"
+              <input class="form-control" name="edades_hembras" placeholder="0-1,1-2,2+"
                      value="{{ finca.edades_hembras if finca else '' }}">
             </div>
             <div class="col-md-6">
               <label class="form-label">Machos</label>
-              <input class="form-control" name="edades_machos" placeholder="0-1, 1-2, 2+"
+              <input class="form-control" name="edades_machos" placeholder="0-1,1-2,2+"
                      value="{{ finca.edades_machos if finca else '' }}">
             </div>
           </div>
 
+          <!-- Botones -->
           <div class="d-flex gap-2">
             <button class="btn btn-success" type="submit">
-              {% if finca %}Actualizar{% else %}Guardar Finca{% endif %}
+              {{ finca and "Actualizar" or "Guardar" }}
             </button>
             <a href="{{ url_for('finca.listar') }}" class="btn btn-secondary">
               Cancelar
@@ -104,17 +104,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ==== Panel informativo ==== -->
-  <div class="col-lg-8 pe-4">
-    <h5 class="text-success text-center mb-3">¿Cómo funciona el registro inicial?</h5>
-    <p class="lead">
-      Al guardar, SoFTgan calculará edades, clasificará los animales
-      y habilitará los módulos de sanitario, producción e inventario
-      vinculados a esta finca.
-    </p>
-    <img src="{{ url_for('static', filename='images/dashboard_demo.png') }}"
-         class="img-fluid shadow rounded" alt="Vista previa">
-  </div>
 </div>
 {% endblock %}
+
